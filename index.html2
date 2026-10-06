@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate Love Quest 💖</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2b1055, #7597de);
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            max-width: 550px;
+            width: 95%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            padding: 25px 18px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        h2 { color: #ff85a1; font-size: 1.6em; margin-bottom: 15px; }
+        .btn {
+            background: #ff4d6d; color: white; border: none;
+            padding: 12px 20px; font-size: 1.05em; font-weight: bold;
+            border-radius: 50px; cursor: pointer; margin: 8px 0; width: 100%;
+            box-shadow: 0 4px 15px rgba(255,77,109,0.4); transition: 0.2s;
+        }
+        .btn:hover { transform: scale(1.02); background: #ff758f; }
+        .hidden { display: none !important; }
+        input[type="text"], input[type="date"] {
+            width: 80%; padding: 12px; border-radius: 12px; border: none;
+            font-size: 1.1em; margin: 15px 0; text-align: center; outline: none;
+        }
+        .error-msg { color: #ffb703; font-weight: bold; margin-top: 10px; }
+        .cake { font-size: 80px; animation: bounce 1.5s infinite alternate; }
+        @keyframes bounce { to { transform: translateY(-10px); } }
+        .wish-box {
+            background: rgba(255, 255, 255, 0.95); color: #333;
+            padding: 20px; border-radius: 20px; text-align: left;
+            margin-top: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .wish-text {
+            color: #2b2d42; font-size: 1em; line-height: 1.7;
+            white-space: pre-line; font-weight: 500;
+        }
+        .photo-card {
+            background: white; padding: 8px; border-radius: 15px;
+            margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        .photo-card img { width: 100%; border-radius: 12px; }
+        .caption { color: #ff4d6d; font-size: 0.9em; font-weight: bold; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+
+        <!-- STEP 1: START -->
+        <div id="step-start">
+            <h2>🎮 The Ultimate Love Challenge!</h2>
+            <p>Welcome Birthday Boy! 🎂<br>Are you ready to unlock your ultimate birthday surprise?</p>
+            <button class="btn" onclick="nextStep('step-q1')">Let's Play! 🚀</button>
+        </div>
+
+        <!-- MCQ 1 -->
+        <div id="step-q1" class="hidden">
+            <h2>Question 1 / 3 💖</h2>
+            <p style="font-size: 1.2em;">Oya oyage kellata kochchara adare krnwda?</p>
+            <button class="btn" onclick="alert('Wrong Answer! Try harder 😜')">Poddy</button>
+            <button class="btn" onclick="alert('Nope, way more than that! 😂')">Godaak</button>
+            <button class="btn" onclick="nextStep('step-q2')">Godk godaaaaaaaaaaaaaakk kiynn wachana naaa ❤️️</button>
+        </div>
+
+        <!-- MCQ 2 -->
+        <div id="step-q2" class="hidden">
+            <h2>Question 2 / 3 🙈</h2>
+            <p style="font-size: 1.2em;">Gfge asama de mokkd?</p>
+            <button class="btn" onclick="alert('Wrong! Guess again 🤭')">Hair only</button>
+            <button class="btn" onclick="nextStep('step-q3')">As deka, Kukku deka & Lips deka 💋</button>
+            <button class="btn" onclick="alert('Nice try but no! 😂')">Smile only</button>
+        </div>
+
+        <!-- MCQ 3 -->
+        <div id="step-q3" class="hidden">
+            <h2>Question 3 / 3 🔐</h2>
+            <p style="font-size: 1.2em;">Gft hamadama ekama widiyt adare adu nokra adare krnwda?</p>
+            <button class="btn" onclick="nextStep('step-lock1')">Ow ow owwww ❤️❤️❤️</button>
+            <button class="btn" onclick="alert('Hey! Only YES is allowed 😤')">Poddak adu wei</button>
+        </div>
+
+        <!-- LOCK 1: BIRTHDAY DATE -->
+        <div id="step-lock1" class="hidden">
+            <h2>🎁 Stage 1: Gift Box Lock 🔒</h2>
+            <p>Enter your GF's Birthday to unlock the first box!</p>
+            <input type="date" id="gf-date">
+            <button class="btn" onclick="unlockBox1()">Unlock Box 1 🔓</button>
+            <div id="err1" class="error-msg"></div>
+        </div>
+
+        <!-- LOCK 2: KISS SECRET CODE -->
+        <div id="step-lock2" class="hidden">
+            <h2>🎁 Stage 2: Final Gift Box Lock 🔒</h2>
+            <p style="font-size: 1.1em; color: #ffccd5;">Hint: A sweet kiss for your Sudu Manika... 💋<br><i>(Type the kiss sound to unlock!)</i></p>
+            <input type="text" id="kiss-code" placeholder="Type here...">
+            <button class="btn" onclick="unlockBox2()">Unlock Final Box 🔓</button>
+            <div id="err2" class="error-msg"></div>
+        </div>
+
+        <!-- FINAL CELEBRATION -->
+        <div id="step-final" class="hidden">
+            <div class="cake">🎂🎈✨</div>
+            <h1 style="color: #ff4d6d; margin: 5px 0;">Happy Birthday! 🎉</h1>
+            <p style="color: #ffccd5;">🎈 🎈 🎈 🎈 🎈</p>
+
+            <div class="wish-box">
+                <div class="wish-text">Happy Birthday to my favourite person in this whole world, mage Sudu Mahaththayo 🥹❤️🎂💍
+
+අද දවස මටත් හරිම special, මොකද අද තමයි මගේ ජීවිතේ මට හම්බවුණු වටිනාම මනුස්සයෙක් මේ ලෝකෙට ආපු දවස. 🥺❤️ ඔයා මගේ life එකට ආවට පස්සේ මගේ හිනාවට, සතුටට, හිතේ peace එකට… ඔයාගෙම පොඩි කොටසක් තියෙනවා. 🌎❤️
+
+මම හැමදාම කියනවා වගේ, ඔයා මගේ boyfriend විතරක් නෙමෙයි… මගේ best friend, මගේ comfort person, මගේ happiness, මගේ favourite headache 😂❤️ ඔයා එක්ක කතා කරන එක, පොඩි දේකට රණ්ඩු වෙන එක, ආයෙත් විනාඩි 5කින් හොඳ වෙන එක, එකිනෙකාට විහිළු කරන එක… මේ හැමදේම මට හරිම වටිනවා. 🥹💗
+
+සමහර වෙලාවට ඔයා මාව පිස්සු වට්ටනවා 😒😂, සමහර වෙලාවට මට තරහා යනවා, සමහර වෙලාවට “මේ මනුස්සයාව මටම ඇයි හම්බුණේ?” කියලත් හිතෙනවා 🤦🏻‍♀️😂… ඒත් අන්තිමට හැමදාම මගේ හිත කියන්නේ “ඔව්, මේ මනුස්සයා තමයි මට ඕනේ” කියලා. 🥺❤️
+
+ඔයා මගේ life එකේ ඉන්න එක ගැන මම ඇත්තටම grateful. මගේ හොඳ දවස්වල විතරක් නෙමෙයි, මගේ අමාරු දවස්වලත් මාව තේරුම් ගන්න, මට හයියක් වෙන්න, මාව හිනස්සන්න ඔයා කරන හැම පුංචි දෙයක්ම මට ගොඩක් වටිනවා. 🫶🏻❤️
+
+අද ඔයාගේ birthday එක නිසා මම wish එකක් ඉල්ලන්නම්… ඔයා හැමදාම සතුටින් ඉන්න. ඔයාගේ හීන හැම එකක්ම එකින් එක හැබෑ වෙන්න. ඔයාට ලස්සන future එකක් ලැබෙන්න. ඒ හැම ලස්සන දවසකම මටත් ඔයා ළඟින් ඉන්න පුළුවන් වෙන්න. 🥺❤️🌍
+
+And yes… මට ඔයාට කියන්න තියෙන එක දෙයක් තියෙනවා 😌❤️ ඔයා දැන් officially තව අවුරුද්දකින් වයසයි… ඒත් මගේ ඇස් දෙකට නම් තාමත් මගේ පොඩි baby boy තමයි. 😂🥹❤️ Age එක වැඩි වුණාට මගේ ආදරේ අඩු වෙන්නේ නෑ හොඳේ. ඒක නම් unfortunately for you… දවසින් දවස වැඩි වෙනවා. 😂❤️
+
+මට perfect relationship එකක් ඕනේ නෙමෙයි. අපි දෙන්නටම imperfect වෙලා, sometimes crazy වෙලා, sometimes annoying වෙලා, ඒත් එකිනෙකාව තෝරගෙන ඉන්න පුළුවන් relationship එකක් තමයි මට ඕනේ. 🥹❤️
+
+Thank you for being my person, my safe place, my happiness and my favourite human. 🫂❤️ මගේ life එකට ඔයා ගෙනාපු ආදරේට, සතුටට, memories වලට thank you so much.
+
+Happy Birthday once again, mage pana 🥹❤️🎂💍
+
+May this new year of your life bring you everything your heart wishes for. And among all those wishes… I secretly hope I’ll always be one of them. 🥺❤️
+
+I love you so much, mage Sudu Mahaththayo. ❤️🌎🔐💍
+
+අද birthday boy ඔයා… ඒත් gift එකක් විදිහට මට ලැබුණේ ඔයා වගේ කෙනෙක්. ඒක තමයි මගේ biggest blessing. 🥹❤️
+
+Now go enjoy your birthday, birthday boy! 😂🎂❤️ හැබැයි වැඩියෙන් happy වෙන්න එපා… ඔයාට තාම මාව handle කරන්න තියෙනවා. 🤭😂❤️
+
+Forever your sudu manika☺❤️🔐🌎</div>
+
+                <div class="photo-card">
+                    <img src="bf_photo.jpg" alt="Birthday Boy">
+                    <div class="caption">My Handsome Sudu Mahaththaya 💖</div>
+                </div>
+
+                <div class="photo-card">
+                    <img src="us_photo1.jpg" alt="Us Together 1">
+                    <div class="caption">Sweet Memories 💑</div>
+                </div>
+
+                <div class="photo-card">
+                    <img src="us_photo2.jpg" alt="Us Together 2">
+                    <div class="caption">Us Together Forever 💖</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function nextStep(stepId) {
+            document.querySelectorAll('.card > div').forEach(div => div.classList.add('hidden'));
+            document.getElementById(stepId).classList.remove('hidden');
+        }
+
+        function unlockBox1() {
+            let val = document.getElementById('gf-date').value;
+            // ඔයාගේ Birthday Date එක මෙතනට දාන්න (YYYY-MM-DD):
+            if (val === "2005.12.03" ) {
+                nextStep('step-lock2');
+            } else {
+                document.getElementById('err1').innerText = "Please select the date first! 📅";
+            }
+        }
+
+        function unlockBox2() {
+            let val = document.getElementById('kiss-code').value.trim().toLowerCase();
+            if (val === 'ummmmmmmaa') {
+                nextStep('step-final');
+                // Confetti fireworks
+                confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
+            } else {
+                document.getElementById('err2').innerText = "Wrong kiss! Type exact: ummmmmmmaa 💋";
+            }
+        }
+    </script>
+
+</body>
+</html>
